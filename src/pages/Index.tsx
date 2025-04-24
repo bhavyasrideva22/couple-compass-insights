@@ -1,12 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from 'react';
+import { AssessmentProvider, useAssessment } from '../context/AssessmentContext';
+import AssessmentIntro from '../components/AssessmentIntro';
+import AssessmentQuestion from '../components/AssessmentQuestion';
+import AssessmentResults from '../components/AssessmentResults';
+
+const AssessmentContent: React.FC = () => {
+  const { currentQuestion, isCompleted } = useAssessment();
+
+  // Show results if assessment is completed
+  if (isCompleted) {
+    return <AssessmentResults />;
+  }
+
+  // Show questions if currentQuestion is valid (assessment started)
+  if (currentQuestion >= 0 && currentQuestion < 30) {
+    return <AssessmentQuestion />;
+  }
+
+  // Otherwise show intro screen
+  return <AssessmentIntro />;
+};
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-love-100 to-harmony-100">
+      <AssessmentProvider>
+        <AssessmentContent />
+      </AssessmentProvider>
     </div>
   );
 };
